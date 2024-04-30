@@ -4,7 +4,7 @@ function cleanupPage() {
   var elementsArr = Array.prototype.slice.call(elements)
   elementsArr.sort((a, b) => {
     const [aDate, bDate] = [getDateDelivery(a), getDateDelivery(b)]
-    return +(aDate > bDate) | -(aDate < bDate) | 0
+    return +(aDate > bDate) | -(aDate < bDate)
   })
 
   var parent = document.querySelector(".rf6")
