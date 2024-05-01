@@ -1,5 +1,5 @@
 
-function cleanupPage() {
+function sortCurrentOrders() {
   const elements = document.getElementsByClassName("r5f")
   var elementsArr = Array.prototype.slice.call(elements)
   elementsArr.sort((a, b) => {
@@ -41,7 +41,7 @@ chrome.action.onClicked.addListener((tab) => {
   if (!tab.url.includes('chrome://')) {
     chrome.scripting.executeScript({
       target: { tabId: tab.id },
-      function: cleanupPage
+      function: sortCurrentOrders
     })
   }
 })
