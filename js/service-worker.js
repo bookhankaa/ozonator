@@ -32,7 +32,8 @@ function cleanupPage() {
       delivery_string[2] = (new Date()).getFullYear()
     }
     delivery_string[1] = datesMap[delivery_string[1].toLowerCase()] || delivery_string[1]
-    return new Date(delivery_string)
+    const delivery_date =  new Date(delivery_string)
+    return delivery_date == "Invalid Date" ? undefined : delivery_date
   }
 }
 
