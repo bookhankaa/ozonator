@@ -4,6 +4,8 @@ function sortCurrentOrders() {
   var elementsArr = Array.prototype.slice.call(elements)
   elementsArr.sort((a, b) => {
     const [aDate, bDate] = [getDateDelivery(a), getDateDelivery(b)]
+    if (aDate == null) return -1
+    if (bDate == null) return +1
     return +(aDate > bDate) | -(aDate < bDate)
   })
 
@@ -27,7 +29,11 @@ function sortCurrentOrders() {
       "ноября": "November",
       "декабря": "December",
     }
-    var delivery_string = Array.prototype.slice.call(e.querySelectorAll(".er0")).at(-1).innerHTML.split(":")[1].trim().split(" ").slice(0, 2)
+    var delivery_string = Array.prototype.slice.call(e.querySelectorAll(".er0")).at(-1).innerHTML.split(":")[1]
+    if (!delivery_string) {
+      return null
+    }
+    delivery_string = delivery_string.trim().split(" ").slice(0, 2)
     if (!parseInt(delivery_string[2])) {
       delivery_string[2] = (new Date()).getFullYear()
     }
