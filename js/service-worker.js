@@ -1,6 +1,6 @@
 
 function sortCurrentOrders() {
-  const elements = document.getElementsByClassName("r5f")
+  const elements = document.querySelectorAll('[data-widget="orderList"] > div')
   var elementsArr = Array.prototype.slice.call(elements)
   elementsArr.sort((a, b) => {
     const [aDate, bDate] = [getDateDelivery(a), getDateDelivery(b)]
@@ -9,7 +9,7 @@ function sortCurrentOrders() {
     return +(aDate > bDate) | -(aDate < bDate)
   })
 
-  var parent = document.querySelector(".rf6")
+  var parent = document.querySelector('[data-widget="orderList"]')
   elementsArr.forEach(element => {
     parent.append(element)
   })
@@ -29,7 +29,7 @@ function sortCurrentOrders() {
       "ноября": "November",
       "декабря": "December",
     }
-    var delivery_string = Array.prototype.slice.call(e.querySelectorAll(".er0")).at(-1).innerHTML.split(":")[1]
+    var delivery_string = Array.prototype.slice.call(e.querySelectorAll(".e0r")).at(-1).innerHTML.split(":")[1]
     if (!delivery_string) {
       return null
     }
