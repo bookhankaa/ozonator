@@ -1,19 +1,20 @@
 
 function sortCurrentOrders() {
+  const date_class_name = '.' + document.evaluate("//p[contains(text(),'Ожидаемая дата')]", document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue.className
   const elements = document.querySelectorAll('[data-widget="orderList"] > div')
   var elementsArr = Array.prototype.slice.call(elements)
   elementsArr.sort((a, b) => {
-    const [aDate, bDate] = [getDateDelivery(a), getDateDelivery(b)]
+    const [aDate, bDate] = [getDateDelivery(a, 'e1r'), getDateDelivery(b, 'e1r')]
     if (aDate == null) return -1
     if (bDate == null) return +1
     return +(aDate > bDate) | -(aDate < bDate)
   })
-
+  
   var parent = document.querySelector('[data-widget="orderList"]')
   elementsArr.forEach(element => {
     parent.append(element)
   })
-
+  
   function getDateDelivery(e) {
     const datesMap = {
       "января": "January",
@@ -29,7 +30,7 @@ function sortCurrentOrders() {
       "ноября": "November",
       "декабря": "December",
     }
-    var delivery_string = Array.prototype.slice.call(e.querySelectorAll(".e0r")).at(-1).innerHTML.split(":")[1]
+    var delivery_string = Array.prototype.slice.call(e.querySelectorAll(date_class_name)).at(-1).innerHTML.split(":")[1]
     if (!delivery_string) {
       return null
     }
@@ -38,7 +39,7 @@ function sortCurrentOrders() {
       delivery_string[2] = (new Date()).getFullYear()
     }
     delivery_string[1] = datesMap[delivery_string[1].toLowerCase()] || delivery_string[1]
-    const delivery_date =  new Date(delivery_string)
+    const delivery_date = new Date(delivery_string)
     return delivery_date == "Invalid Date" ? undefined : delivery_date
   }
 }
