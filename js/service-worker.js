@@ -4,7 +4,7 @@ function sortCurrentOrders() {
   const elements = document.querySelectorAll('[data-widget="orderList"] > div')
   var elementsArr = Array.prototype.slice.call(elements)
   elementsArr.sort((a, b) => {
-    const [aDate, bDate] = [getDateDelivery(a, 'e1r'), getDateDelivery(b, 'e1r')]
+    const [aDate, bDate] = [getDateDelivery(a), getDateDelivery(b)]
     if (aDate == null) return -1
     if (bDate == null) return +1
     return +(aDate > bDate) | -(aDate < bDate)
@@ -15,32 +15,37 @@ function sortCurrentOrders() {
     parent.append(element)
   })
   
+  const datesMap = {
+    "января": "January",
+    "февраля": "February",
+    "марта": "March",
+    "апреля": "April",
+    "мая": "May",
+    "июня": "June",
+    "июля": "July",
+    "августа": "August",
+    "сентября": "September",
+    "октября": "October",
+    "ноября": "November",
+    "декабря": "December",
+  }
+
   function getDateDelivery(e) {
-    const datesMap = {
-      "января": "January",
-      "февраля": "February",
-      "марта": "March",
-      "апреля": "April",
-      "мая": "May",
-      "июня": "June",
-      "июля": "July",
-      "августа": "August",
-      "сентября": "September",
-      "октября": "October",
-      "ноября": "November",
-      "декабря": "December",
+    try {
+      var delivery_string = Array.prototype.slice.call(e.querySelectorAll(date_class_name)).at(-1).innerHTML.split(":")[1]
+      if (!delivery_string) {
+        return null
+      }
+      delivery_string = delivery_string.trim().split(" ").slice(0, 2)
+      if (!parseInt(delivery_string[2])) {
+        delivery_string[2] = (new Date()).getFullYear()
+      }
+      delivery_string[1] = datesMap[delivery_string[1].toLowerCase()] || delivery_string[1]
+      const delivery_date = new Date(delivery_string)
+      return delivery_date == "Invalid Date" ? undefined : delivery_date
+    } catch (error) {
+      return undefined
     }
-    var delivery_string = Array.prototype.slice.call(e.querySelectorAll(date_class_name)).at(-1).innerHTML.split(":")[1]
-    if (!delivery_string) {
-      return null
-    }
-    delivery_string = delivery_string.trim().split(" ").slice(0, 2)
-    if (!parseInt(delivery_string[2])) {
-      delivery_string[2] = (new Date()).getFullYear()
-    }
-    delivery_string[1] = datesMap[delivery_string[1].toLowerCase()] || delivery_string[1]
-    const delivery_date = new Date(delivery_string)
-    return delivery_date == "Invalid Date" ? undefined : delivery_date
   }
 }
 
