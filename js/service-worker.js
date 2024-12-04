@@ -25,13 +25,19 @@ function sortCurrentOrders() {
     if (bDate == null) return +1
     return +(aDate > bDate) | -(aDate < bDate)
   })
-  
+
   var parent = document.querySelector('[data-widget="orderList"]')
   elementsArr.forEach(element => {
-    parent.append(element)
+    const txtcont = element.textContent
+    if (txtcont.includes('Отменён') || txtcont.includes('Получен')) {
+      element.remove()
+    }
+    else {
+      parent.append(element)
+    }
   })
-  
-  
+
+
   function getDateDelivery(e) {
     try {
       var delivery_string = Array.prototype.slice.call(e.querySelectorAll(date_class_name)).at(-1).innerHTML.split(":")[1]
