@@ -15,7 +15,7 @@ function sortCurrentOrders() {
     "декабря": "December",
   }
 
-  const date_class_name = '.' + document.evaluate("//p[contains(text(),'Ожидаемая дата')]", document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue.className
+  const date_class_name = '.' + document.evaluate("//span[contains(text(),'Ожидаем')]", document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue.className
   const elements = document.querySelectorAll('[data-widget="orderList"] > div')
   var elementsArr = Array.prototype.slice.call(elements)
 
