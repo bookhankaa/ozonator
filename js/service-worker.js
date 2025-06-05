@@ -15,7 +15,7 @@ function sortCurrentOrders() {
     "декабря": "December",
   }
 
-  const date_class_name = '.' + document.evaluate("//span[contains(text(),'Ожидаем')]", document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue.className
+  const date_class_name = '.' + document.evaluate("//p[contains(text(),'дата')]", document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue.className
   const elements = document.querySelectorAll('[data-widget="orderList"] > div')
   var elementsArr = Array.prototype.slice.call(elements)
 
@@ -29,7 +29,7 @@ function sortCurrentOrders() {
   var parent = document.querySelector('[data-widget="orderList"]')
   elementsArr.forEach(element => {
     const txtcont = element.textContent
-    if (txtcont.includes('Отменён') || txtcont.includes('Получен')) {
+    if (!txtcont.includes('В пути')) {
       element.remove()
     }
     else {
@@ -40,7 +40,8 @@ function sortCurrentOrders() {
 
   function getDateDelivery(e) {
     try {
-      var delivery_string = Array.prototype.slice.call(e.querySelectorAll(date_class_name)).at(-1).innerHTML.split(" ")[1].replace(/&nbsp;/g, ' ').replace(',', '')
+      var delivery_string = Array.prototype.slice.call(e.querySelectorAll(date_class_name)).at(-1).innerHTML.split(":")[1]
+      console.log(delivery_string)
       if (!delivery_string) {
         return null
       }
