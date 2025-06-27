@@ -45,10 +45,13 @@ function sortCurrentOrders() {
       Array.prototype.slice.call(e.querySelectorAll(date_class_name)).forEach(element => {
         const text = element.innerText.toLocaleLowerCase()
         if (text.includes("дата") & !text.includes("отмен")) {
-          var delivery_string = text.split(":")[1].trim().split(" ").slice(0, 2)
-          delivery_string[2] = (new Date()).getFullYear()
-          delivery_string[1] = datesMap[delivery_string[1]] || delivery_string[1]
-          dates_arr.push(new Date(delivery_string))
+          const TEXT_SPLITTED_ARR =  text.split(":")[1]
+          if (TEXT_SPLITTED_ARR){
+            var delivery_string = TEXT_SPLITTED_ARR.trim().split(" ").slice(0, 2)
+            delivery_string[2] = (new Date()).getFullYear()
+            delivery_string[1] = datesMap[delivery_string[1]] || delivery_string[1]
+            dates_arr.push(new Date(delivery_string))
+          }
         }
       })
       if (dates_arr.length > 0) {
